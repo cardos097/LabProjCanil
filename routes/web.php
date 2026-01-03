@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\AdoptionController;
+use App\Http\Controllers\SuccessStoryController;
+use App\Http\Controllers\VolunteerController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -31,5 +33,21 @@ Route::middleware('auth')->group(function () {
 Route::post('/contact', [MessageController::class, 'store'])->name('messages.store');
 
 Route::view('/contact', 'contact')->name('contact');
+
+// public page
+Route::get('/success-stories', [SuccessStoryController::class, 'index'])
+    ->name('success_stories.index');
+
+// amdin creates story
+Route::middleware('auth')->group(function () {
+    Route::post('/success-stories', [SuccessStoryController::class, 'store'])
+        ->name('success_stories.store');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/volunteer', [VolunteerController::class, 'create'])->name('volunteers.create');
+    Route::post('/volunteer', [VolunteerController::class, 'store'])->name('volunteers.store');
+});
+
 
 require __DIR__.'/auth.php';

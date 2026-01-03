@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use App\Models\Comment;
 use App\Models\Message;
 use App\Models\Adoption;
+use App\Models\Volunteer
 
 class User extends Authenticatable
 {
@@ -61,5 +62,9 @@ class User extends Authenticatable
     public function adoptions()
     {
         return $this->hasMany(Adoption::class);
+    }
+
+    public function volunteer(){
+        return $this->hsaOne(Volunteer::class);
     }
 }
