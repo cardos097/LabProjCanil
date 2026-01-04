@@ -47,6 +47,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/volunteer', [VolunteerController::class, 'create'])->name('volunteers.create');
     Route::post('/volunteer', [VolunteerController::class, 'store'])->name('volunteers.store');
 });
+use App\Http\Controllers\DonationController;
+
+Route::get('/doar', [DonationController::class, 'form'])->name('donations.form');
+Route::post('/doar/checkout', [DonationController::class, 'checkout'])->name('donations.checkout');
+Route::get('/doar/sucesso', [DonationController::class, 'success'])->name('donations.success');
+Route::get('/doar/cancelado', [DonationController::class, 'cancel'])->name('donations.cancel');
+
 
 Route::get('/animals', [AnimalController::class, 'index'])->name('animals.index');
 Route::get('/animals/{animal}', [AnimalController::class, 'show'])->name('animals.show');
