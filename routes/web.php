@@ -7,10 +7,9 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\AdoptionController;
 use App\Http\Controllers\SuccessStoryController;
 use App\Http\Controllers\VolunteerController;
+use App\Http\Controllers\AnimalController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/', 'home')->name('home');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -48,6 +47,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/volunteer', [VolunteerController::class, 'create'])->name('volunteers.create');
     Route::post('/volunteer', [VolunteerController::class, 'store'])->name('volunteers.store');
 });
+
+Route::get('/animals', [AnimalController::class, 'index'])->name('animals.index');
+Route::get('/animals/{animal}', [AnimalController::class, 'show'])->name('animals.show');
 
 
 require __DIR__.'/auth.php';

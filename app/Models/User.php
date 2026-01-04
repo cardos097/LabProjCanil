@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use App\Models\Comment;
 use App\Models\Message;
 use App\Models\Adoption;
-use App\Models\Volunteer
+use App\Models\Volunteer;
 
 class User extends Authenticatable
 {
