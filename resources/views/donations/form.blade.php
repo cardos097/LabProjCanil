@@ -21,18 +21,13 @@
 
                 <div>
                     <label for="amount" class="block font-medium">Valor (€)</label>
-                    <input id="amount"
-                           type="number"
-                           name="amount_eur"
-                           min="1"
-                           step="1"
-                           value="{{ old('amount_eur', 10) }}"
-                           class="w-full border rounded p-2"
-                           required>
+                    <input id="amount" type="number" name="amount_eur" min="1" step="1"
+                        value="{{ old('amount_eur', 10) }}" class="w-full border rounded p-2" required>
                     <p class="text-sm text-gray-500 mt-1">Mínimo: 1€</p>
                 </div>
 
-                <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">
+                <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-white px-4 py-2 rounded">
                     Doar com Stripe
                 </button>
             </form>

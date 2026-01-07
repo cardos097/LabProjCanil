@@ -11,6 +11,11 @@ use App\Models\Message;
 use App\Models\Adoption;
 use App\Models\Volunteer;
 
+/**
+ * User
+ *
+ * Application user. Contains relations to comments, messages, adoptions and volunteer profile.
+ */
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -65,6 +70,7 @@ class User extends Authenticatable
     }
 
     public function volunteer(){
-        return $this->hsaOne(Volunteer::class);
+        // One-to-one volunteer profile for the user
+        return $this->hasOne(Volunteer::class);
     }
 }

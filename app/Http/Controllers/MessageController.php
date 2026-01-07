@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Message;
 
 class MessageController extends Controller
@@ -18,7 +18,7 @@ class MessageController extends Controller
         ]);
 
         Message::create([
-            'user_id' => Auth::id(), // null se nao autenticado
+            'user_id' => Auth::id(), // null if not authenticated
             'subject' => $data['subject'],
             'message' => $data['message'],
             'email'   => $data['email'] ?? null,

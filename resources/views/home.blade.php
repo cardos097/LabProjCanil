@@ -7,6 +7,20 @@
             </p>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Donation call-to-action -->
+                <div class="md:col-span-3 border rounded-lg p-4 bg-green-50 flex items-center justify-between">
+                    <div>
+                        <h2 class="font-semibold text-lg">❤️ Apoie o nosso trabalho</h2>
+                        <p class="text-sm text-gray-600">As doações ajudam-nos a cuidar e a encontrar lar para mais
+                            animais.</p>
+                    </div>
+                    <div>
+                        <a href="{{ route('donations.form') }}" class="bg-blue-600 text-white px-4 py-2 rounded">
+                            Doar agora
+                        </a>
+                    </div>
+                </div>
+
                 <a href="{{ route('success_stories.index') }}" class="border rounded-lg p-4 hover:bg-gray-50">
                     <h2 class="font-semibold text-lg">🏆 Histórias de Sucesso</h2>
                     <p class="text-sm text-gray-600">Conhece adoções felizes e finais positivos.</p>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Animal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AdminAnimalController extends Controller
 {
@@ -29,7 +30,13 @@ class AdminAnimalController extends Controller
             'gender' => ['nullable', 'string', 'max:20'],
             'description' => ['nullable', 'string', 'max:5000'],
             'status' => ['required', 'in:available,adopted'],
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Photo validation
         ]);
+
+        // Save uploaded photo if present
+        if ($request->hasFile('photo')) {
+            $data['photo'] = $request->file('photo')->store('animals', 'public');
+        }
 
         Animal::create($data);
 
@@ -38,7 +45,6 @@ class AdminAnimalController extends Controller
 
     public function show(Animal $animal)
     {
-        // não precisamos para já
         return redirect()->route('admin.animals.edit', $animal);
     }
 
@@ -57,7 +63,20 @@ class AdminAnimalController extends Controller
             'gender' => ['nullable', 'string', 'max:20'],
             'description' => ['nullable', 'string', 'max:5000'],
             'status' => ['required', 'in:available,adopted'],
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        // Save uploaded photo if present
+        if ($request->hasFile('photo')) {
+            // Deletar a foto anterior se existir
+            if ($animal->photo) {
+                // Delete previous photo if exists
+                Storage::disk('public')->delete($animal->photo);
+            }
+
+            // Store the new photo
+            $data['photo'] = $request->file('photo')->store('animals', 'public');
+        }
 
         $animal->update($data);
 
@@ -66,6 +85,11 @@ class AdminAnimalController extends Controller
 
     public function destroy(Animal $animal)
     {
+        // Delete animal photo from storage if present
+        if ($animal->photo) {
+            Storage::disk('public')->delete($animal->photo);
+        }
+
         $animal->delete();
         return redirect()->route('admin.animals.index')->with('success', 'Animal removido.');
     }

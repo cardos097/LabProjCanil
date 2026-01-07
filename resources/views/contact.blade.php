@@ -14,18 +14,18 @@
             @guest
                 <div>
                     <label class="block">Nome</label>
-                    <input name="name" class="w-full border rounded p-2" />
+                    <input name="name" class="w-full border rounded p-2" maxlength="255" />
                 </div>
 
                 <div>
                     <label class="block">Email</label>
-                    <input name="email" type="email" class="w-full border rounded p-2" />
+                    <input name="email" type="email" class="w-full border rounded p-2" maxlength="255" />
                 </div>
             @endguest
 
             <div>
                 <label class="block">Assunto</label>
-                <input name="subject" required class="w-full border rounded p-2" />
+                <input name="subject" required class="w-full border rounded p-2" maxlength="255" />
                 @error('subject')
                     <p class="text-red-600">{{ $message }}</p>
                 @enderror
@@ -33,7 +33,8 @@
 
             <div>
                 <label class="block">Mensagem</label>
-                <textarea name="message" required class="w-full border rounded p-2" rows="6"></textarea>
+                <textarea name="message" required class="w-full border rounded p-2" rows="6"
+                    maxlength="5000"></textarea>
                 @error('message')
                     <p class="text-red-600">{{ $message }}</p>
                 @enderror

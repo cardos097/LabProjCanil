@@ -6,9 +6,18 @@
         </div>
 
         <div class="mt-6 flex gap-3">
-            <a href="/doar" class="bg-green-600 text-white px-4 py-2 rounded">
+            <a href="/doar"
+                class="bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-white px-4 py-2 rounded">
                 Fazer outra doação
             </a>
+
+            @if(!empty($paymentIntentId))
+                <a href="{{ route('comprovativo.download', ['paymentId' => $paymentIntentId]) }}"
+                    class="bg-blue-600 text-white px-4 py-2 rounded">
+                    Baixar comprovativo (PDF)
+                </a>
+            @endif
+
             <a href="/" class="bg-gray-200 text-gray-900 px-4 py-2 rounded">
                 Voltar à home
             </a>

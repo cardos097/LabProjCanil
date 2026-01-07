@@ -2,7 +2,7 @@
     <div class="max-w-3xl mx-auto p-4">
         <h1 class="text-2xl font-bold mb-4">Adicionar Animal</h1>
 
-        <form method="POST" action="{{ route('admin.animals.store') }}" class="space-y-4">
+        <form method="POST" action="{{ route('admin.animals.store') }}" class="space-y-4" enctype="multipart/form-data">
             @csrf
 
             <div>
@@ -54,6 +54,12 @@
                     <option value="adopted" @selected(old('status') === 'adopted')>adopted</option>
                 </select>
                 @error('status') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
+            </div>
+
+            <div>
+                <label class="block font-semibold">Foto</label>
+                <input type="file" name="photo" accept="image/*" class="w-full border rounded p-2">
+                @error('photo') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
             </div>
 
             <div class="flex gap-3">
