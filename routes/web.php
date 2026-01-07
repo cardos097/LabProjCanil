@@ -109,6 +109,7 @@ Route::middleware(['auth', 'role:admin'])
         Route::get('/success-stories', [AdminSuccessStoryController::class, 'index'])->name('stories.index');
         Route::get('/success-stories/create', [AdminSuccessStoryController::class, 'create'])->name('stories.create');
         Route::post('/success-stories', [AdminSuccessStoryController::class, 'store'])->name('stories.store');
+        Route::get('/success-stories/{story}', [AdminSuccessStoryController::class, 'show'])->name('stories.show');
         Route::get('/success-stories/{story}/edit', [AdminSuccessStoryController::class, 'edit'])->name('stories.edit');
         Route::put('/success-stories/{story}', [AdminSuccessStoryController::class, 'update'])->name('stories.update');
         Route::delete('/success-stories/{story}', [AdminSuccessStoryController::class, 'destroy'])->name('stories.destroy');

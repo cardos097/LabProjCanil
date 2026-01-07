@@ -39,11 +39,11 @@
             <div>
                 <label class="block font-semibold">Publicado</label>
                 <input type="checkbox" name="published" value="1" @checked(old('published'))>
-                <span class="text-sm text-gray-600">Marque para publicar</span>
+                <span class="text-sm text-gray-600">Publicar</span>
             </div>
 
             <div class="flex gap-3">
-                <button class="bg-blue-600 text-white px-4 py-2 rounded">Salvar História</button>
+                <button class="bg-blue-600 text-white px-4 py-2 rounded">Guardar História</button>
                 <a href="{{ route('admin.stories.index') }}" class="px-4 py-2 rounded border">Cancelar</a>
             </div>
         </form>

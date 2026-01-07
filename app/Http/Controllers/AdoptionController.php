@@ -53,10 +53,10 @@ class AdoptionController extends Controller
         $data = $request->validate([
             'notes' => ['nullable', 'string', 'max:1000'],
         ]);
-        $adoption->update([
-            'status' => 'rejected',
-            'notes'  => $data['notes'] ?? $adoption->notes,
+        $adoption->animal->update([
+            'status' => 'available',
         ]);
+        $adoption->delete();
 
         return back()->with('success', 'Adoption request rejected successfully!');
     }
