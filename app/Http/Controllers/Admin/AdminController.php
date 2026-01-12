@@ -10,7 +10,7 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $totalDonations = Donation::where('status', 'succeeded')->sum('amount') / 100; // convert cents to euros
+        $totalDonations = Donation::where('status', 'paid')->sum('amount') / 100; // convert cents to euros
         return view('admin.index', compact('totalDonations'));
     }
 }

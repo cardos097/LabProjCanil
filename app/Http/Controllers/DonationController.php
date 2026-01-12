@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\Checkout\Session as CheckoutSession;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class DonationController extends Controller
 {
@@ -24,9 +25,8 @@ class DonationController extends Controller
 
         Stripe::setApiKey(config('services.stripe.secret'));
 
-        $session = CheckoutSession::create([
+        $sessionData = [
             'mode' => 'payment',
-            // Include the Checkout Session id so we can retrieve the PaymentIntent on success
             'success_url' => url('/doar/sucesso?session_id={CHECKOUT_SESSION_ID}'),
             'cancel_url'  => 'http://127.0.0.1:8000/doar/cancelado',
             'line_items' => [[
@@ -37,13 +37,20 @@ class DonationController extends Controller
                     'product_data' => ['name' => 'Doação ao Canil'],
                 ],
             ]],
-        ]);
+        ];
+
+        if (Auth::check()) {
+            $sessionData['customer_email'] = Auth::user()->email;
+        }
+
+        $session = CheckoutSession::create($sessionData);
 
         return redirect($session->url);
     }
 
     public function success(Request $request)
     {
+        logger('Donation success called with session_id: ' . $request->query('session_id'));
         // Show the success page. If it succeeded Stripe provides a session_id we try to get the
         // associated PaymentIntent id and pass it to the view so the user can download
         // the comprovativo (we avoid automatic redirects here so donors see the success message).
@@ -59,18 +66,37 @@ class DonationController extends Controller
 
                 $paymentIntent = $session->payment_intent;
                 $paymentIntentId = is_object($paymentIntent) ? $paymentIntent->id : $paymentIntent;
-                $amount = is_object($paymentIntent) ? $paymentIntent->amount : null;
+                $amount = $session->amount_total; // Use amount_total from session in cents
+
+                if (!$amount) {
+                    logger()->error('Session amount_total is null for session: ' . $sessionId);
+                    return view('donations.success', ['paymentIntentId' => null]);
+                }
 
                 // Save donation to database
-                \App\Models\Donation::create([
+                $donation = \App\Models\Donation::create([
                     'user_id' => Auth::check() ? Auth::id() : null,
                     'amount' => $amount,
-                    'currency' => 'eur',
-                    'status' => 'succeeded',
+                    'currency' => $session->currency,
+                    'status' => $session->payment_status,
                     'stripe_session_id' => $sessionId,
                 ]);
 
-                logger('Donation saved: ' . $amount . ' cents for session ' . $sessionId);
+                logger('Session data: ' . json_encode($session->toArray()));
+
+                // Send receipt email
+                $donorEmail = Auth::check() ? Auth::user()->email : ($session->customer_details->email ?? $session->customer_email ?? null);
+                logger('Donor email: ' . $donorEmail);
+                if ($donorEmail) {
+                    try {
+                        Mail::to($donorEmail)->send(new \App\Mail\DonationReceipt($donation));
+                        logger('Receipt email sent to: ' . $donorEmail);
+                    } catch (\Exception $e) {
+                        logger('Error sending email: ' . $e->getMessage());
+                    }
+                } else {
+                    logger('No donor email found for session: ' . $sessionId);
+                }
             } catch (\Exception $e) {
                 logger()->error('Error retrieving Stripe session: ' . $e->getMessage());
             }
