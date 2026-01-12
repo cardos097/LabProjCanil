@@ -34,8 +34,11 @@
 
                 <div>
                     <label class="block font-semibold">Género</label>
-                    <input name="gender" value="{{ old('gender') }}" class="w-full border rounded p-2"
-                        placeholder="M/F">
+                    <select name="gender" class="w-full border rounded p-2">
+                        <option value="" @selected(old('gender') === '')>Selecionar</option>
+                        <option value="Masculino" @selected(old('gender') === 'Masculino')>Masculino</option>
+                        <option value="Feminino" @selected(old('gender') === 'Feminino')>Feminino</option>
+                    </select>
                     @error('gender') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
                 </div>
             </div>
@@ -50,8 +53,8 @@
             <div>
                 <label class="block font-semibold">Status</label>
                 <select name="status" class="w-full border rounded p-2" required>
-                    <option value="available" @selected(old('status') === 'available')>available</option>
-                    <option value="adopted" @selected(old('status') === 'adopted')>adopted</option>
+                    <option value="Disponível" @selected(old('status') === 'Disponível')>Disponível</option>
+                    <option value="Adotado" @selected(old('status') === 'Adotado')>Adotado</option>
                 </select>
                 @error('status') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
             </div>

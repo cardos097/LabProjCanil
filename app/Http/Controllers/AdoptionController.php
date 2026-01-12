@@ -14,7 +14,7 @@ class AdoptionController extends Controller
     public function store(Request $request, Animal $animal){
 
         // Check if the animal is already adopted
-        if ($animal->status === 'adopted') {
+        if ($animal->status === 'Adotado') {
             return back()->with('error', 'This animal was already adopted.');
         }
         if($animal->adoption){
@@ -41,7 +41,9 @@ class AdoptionController extends Controller
             'adoption_date' => now()->toDateString(),
         ]);
         $adoption->animal->update([
-            'status' => 'adopted',
+            'status' => 'Adotado',
+            'adopted_by' => $adoption->user_id,
+            'adopted_at' => now(),
         ]);
 
         // Send email with PDF certificate

@@ -11,6 +11,7 @@ use App\Http\Controllers\SuccessStoryController;
 use App\Http\Controllers\VolunteerController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\ComprovativoController;
+use App\Http\Controllers\UserController;
 
 // Admin
 use App\Http\Controllers\Admin\AdminController;
@@ -38,6 +39,11 @@ Route::get('/success-stories', [SuccessStoryController::class, 'index'])->name('
 // Contacto (público)
 Route::view('/contact', 'contact')->name('contact');
 Route::post('/contact', [MessageController::class, 'store'])->name('messages.store');
+
+// Perfil do usuário (autenticado)
+Route::middleware('auth')->group(function () {
+    Route::get('/perfil', [UserController::class, 'profile'])->name('profile');
+});
 
 // Doações (Stripe) — público
 Route::get('/doar', [DonationController::class, 'form'])->name('donations.form');

@@ -27,9 +27,9 @@ class AdminAnimalController extends Controller
             'species' => ['required', 'string', 'max:50'],
             'breed' => ['nullable', 'string', 'max:255'],
             'age' => ['nullable', 'integer', 'min:0', 'max:40'],
-            'gender' => ['nullable', 'string', 'max:20'],
+            'gender' => ['nullable', 'in:Masculino,Feminino'],
             'description' => ['nullable', 'string', 'max:5000'],
-            'status' => ['required', 'in:available,adopted'],
+            'status' => ['required', 'in:Disponível,Adotado'],
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Photo validation
         ]);
 
@@ -60,9 +60,9 @@ class AdminAnimalController extends Controller
             'species' => ['required', 'string', 'max:50'],
             'breed' => ['nullable', 'string', 'max:255'],
             'age' => ['nullable', 'integer', 'min:0', 'max:40'],
-            'gender' => ['nullable', 'string', 'max:20'],
+            'gender' => ['nullable', 'in:Masculino,Feminino'],
             'description' => ['nullable', 'string', 'max:5000'],
-            'status' => ['required', 'in:available,adopted'],
+            'status' => ['required', 'in:Disponível,Adotado'],
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 

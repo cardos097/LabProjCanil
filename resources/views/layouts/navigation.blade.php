@@ -77,8 +77,11 @@
                         </x-slot>
 
                         <x-slot name="content">
+                            <x-dropdown-link :href="route('profile')">
+                                Meu Perfil
+                            </x-dropdown-link>
                             <x-dropdown-link :href="route('profile.edit')">
-                                Profile
+                                Configurações
                             </x-dropdown-link>
 
                             <!-- Authentication -->

@@ -9,7 +9,7 @@ class AnimalController extends Controller
 {
     public function index(){
 
-        $animals = Animal::where('status','available')->latest()->get();
+        $animals = Animal::where('status','Disponível')->latest()->get();
 
         return view('animals.index', compact('animals'));
     }

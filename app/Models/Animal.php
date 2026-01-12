@@ -16,16 +16,13 @@ class Animal extends Model
 {
     use HasFactory;
 
-    // Mass assignable fields
-    protected $fillable = [
-        'name',
-        'species',
-        'breed',
-        'age',
-        'gender',
-        'description',
-        'photo',
-        'status',
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'adopted_at' => 'datetime',
     ];
 
     public function comments(){
@@ -39,5 +36,8 @@ class Animal extends Model
     public function adoption(){
         // Current adoption (if exist)
         return $this->hasOne(Adoption::class);
+    }
+    public function adoptedBy(){
+        return $this->belongsTo(User::class, 'adopted_by');
     }
 }

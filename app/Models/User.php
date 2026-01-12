@@ -73,4 +73,8 @@ class User extends Authenticatable implements MustVerifyEmail
         // One-to-one volunteer profile for the user
         return $this->hasOne(Volunteer::class);
     }
+
+    public function adoptedAnimals(){
+        return $this->hasMany(Animal::class, 'adopted_by');
+    }
 }
