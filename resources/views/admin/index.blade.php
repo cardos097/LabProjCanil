@@ -48,6 +48,32 @@
                 </div>
             @endif
 
+            <!-- Voluntários -->
+            @if(Route::has('admin.volunteers.index'))
+                <a href="{{ route('admin.volunteers.index') }}" class="border rounded p-5 hover:bg-gray-50 transition">
+                    <div class="text-lg font-semibold">🤝 Voluntários</div>
+                    <div class="text-sm text-gray-600 mt-1">
+                        Aprovar / rejeitar pedidos
+                    </div>
+                </a>
+            @else
+                <div class="border rounded p-5 bg-gray-50 text-gray-500">
+                    <div class="text-lg font-semibold">🤝 Voluntários</div>
+                    <div class="text-sm mt-1">Em breve</div>
+                </div>
+            @endif
+
+            <!-- Doações -->
+            <div class="border rounded p-5 bg-green-50">
+                <div class="text-lg font-semibold">💰 Doações Totais</div>
+                <div class="text-2xl font-bold text-green-600 mt-1">
+                    €{{ number_format($totalDonations, 2) }}
+                </div>
+                <div class="text-sm text-gray-600 mt-1">
+                    Total arrecadado
+                </div>
+            </div>
+
         </div>
     </div>
 </x-app-layout>

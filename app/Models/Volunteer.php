@@ -17,6 +17,7 @@ class Volunteer extends Model
         'availability',
         'skills',
         'notes',
+        'status',
     ];
 
     public function user(){

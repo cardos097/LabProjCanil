@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Adoption;
 use App\Models\Animal;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class AdoptionController extends Controller
 {
@@ -43,6 +44,9 @@ class AdoptionController extends Controller
             'status' => 'adopted',
         ]);
 
+        // Send email with PDF certificate
+        Mail::to($adoption->user->email)->send(new \App\Mail\AdoptionApproved($adoption));
+
         return back()->with('success', 'Adoption request approved successfully!');
     }
 
@@ -53,6 +57,10 @@ class AdoptionController extends Controller
         $data = $request->validate([
             'notes' => ['nullable', 'string', 'max:1000'],
         ]);
+
+        // Send rejection email before deleting
+        Mail::to($adoption->user->email)->send(new \App\Mail\AdoptionRejected($adoption, $data['notes'] ?? null));
+
         $adoption->animal->update([
             'status' => 'available',
         ]);

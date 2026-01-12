@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\Checkout\Session as CheckoutSession;
+use Illuminate\Support\Facades\Auth;
 
 class DonationController extends Controller
 {
@@ -48,6 +49,7 @@ class DonationController extends Controller
         // the comprovativo (we avoid automatic redirects here so donors see the success message).
         $sessionId = $request->query('session_id');
         $paymentIntentId = null;
+        $amount = null;
 
         if ($sessionId) {
             try {
@@ -57,6 +59,18 @@ class DonationController extends Controller
 
                 $paymentIntent = $session->payment_intent;
                 $paymentIntentId = is_object($paymentIntent) ? $paymentIntent->id : $paymentIntent;
+                $amount = is_object($paymentIntent) ? $paymentIntent->amount : null;
+
+                // Save donation to database
+                \App\Models\Donation::create([
+                    'user_id' => Auth::check() ? Auth::id() : null,
+                    'amount' => $amount,
+                    'currency' => 'eur',
+                    'status' => 'succeeded',
+                    'stripe_session_id' => $sessionId,
+                ]);
+
+                logger('Donation saved: ' . $amount . ' cents for session ' . $sessionId);
             } catch (\Exception $e) {
                 logger()->error('Error retrieving Stripe session: ' . $e->getMessage());
             }

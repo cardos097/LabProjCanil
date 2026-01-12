@@ -1,0 +1,17 @@
+&lt;!DOCTYPE html&gt;
+&lt;html lang="pt"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Adoção Aprovada&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Parabéns! Sua adoção foi aprovada.&lt;/h1&gt;
+    &lt;p&gt;Olá {{ $adoption->user->name }},&lt;/p&gt;
+    &lt;p&gt;Sua solicitação de adoção para o animal {{ $adoption->animal->name }} foi aprovada.&lt;/p&gt;
+    &lt;p&gt;Data da adoção: {{ $adoption->adoption_date }}&lt;/p&gt;
+    &lt;p&gt;Anexado a este email está o comprovativo em PDF.&lt;/p&gt;
+    &lt;p&gt;Obrigado por adotar!&lt;/p&gt;
+    &lt;p&gt;Atenciosamente,&lt;br&gt;Canil de Portugal&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;

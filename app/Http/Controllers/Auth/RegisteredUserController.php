@@ -43,8 +43,8 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        Auth::login($user);
+        // Auth::login($user); // Remove this to require email verification before login
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('verification.notice', absolute: false));
     }
 }

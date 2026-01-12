@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin\AdminAnimalController;
 use App\Http\Controllers\Admin\AdminAdoptionController;
 use App\Http\Controllers\Admin\AdminMessageController;
 use App\Http\Controllers\Admin\AdminSuccessStoryController;
+use App\Http\Controllers\Admin\AdminVolunteerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -99,6 +100,11 @@ Route::middleware(['auth', 'role:admin'])
         Route::get('/adoptions', [AdminAdoptionController::class, 'index'])->name('adoptions.index');
         Route::patch('/adoptions/{adoption}/approve', [AdoptionController::class, 'approve'])->name('adoptions.approve');
         Route::patch('/adoptions/{adoption}/reject', [AdoptionController::class, 'reject'])->name('adoptions.reject');
+
+        // Admin: Voluntários
+        Route::get('/volunteers', [AdminVolunteerController::class, 'index'])->name('volunteers.index');
+        Route::patch('/volunteers/{volunteer}/approve', [AdminVolunteerController::class, 'approve'])->name('volunteers.approve');
+        Route::patch('/volunteers/{volunteer}/reject', [AdminVolunteerController::class, 'reject'])->name('volunteers.reject');
 
         // Admin: Mensagens (Contacte-nos)
         Route::get('/messages', [AdminMessageController::class, 'index'])->name('messages.index');
