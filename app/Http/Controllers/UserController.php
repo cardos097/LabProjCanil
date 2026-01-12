@@ -10,7 +10,7 @@ class UserController extends Controller
     public function profile()
     {
         $user = Auth::user();
-        $adoptedAnimals = $user->adoptedAnimals()->with('adoptedBy')->get();
+        $adoptedAnimals = $user->adoptedAnimals()->get();
 
         return view('profile', compact('user', 'adoptedAnimals'));
     }

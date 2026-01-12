@@ -10,6 +10,7 @@ use App\Models\Comment;
 use App\Models\Message;
 use App\Models\Adoption;
 use App\Models\Volunteer;
+use App\Models\Animal;
 
 /**
  * User
