@@ -78,4 +78,9 @@ class User extends Authenticatable implements MustVerifyEmail
     public function adoptedAnimals(){
         return $this->hasMany(Animal::class, 'adopted_by');
     }
+
+    public function donations()
+    {
+        return $this->hasMany(Donation::class);
+    }
 }

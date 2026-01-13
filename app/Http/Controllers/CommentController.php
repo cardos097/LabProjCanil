@@ -15,7 +15,16 @@ class CommentController extends Controller
     public function index()
     {
         $comments = Comment::latest()->paginate(10);
-        $animals = Animal::where('status', 'Disponível')->get();
+        
+        // Se autenticado, mostrar apenas animais que adotou
+        if (Auth::check()) {
+            $animals = Animal::whereHas('adoptions', function ($query) {
+                $query->where('user_id', Auth::id())->where('status', 'approved');
+            })->get();
+        } else {
+            $animals = collect();
+        }
+        
         return view('comments.index', compact('comments', 'animals'));
     }
 
@@ -25,14 +34,27 @@ class CommentController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'animal_id' => ['required', 'exists:animals,id'],
+            'animal_id' => ['nullable', 'exists:animals,id'],
             'content' => ['required', 'string', 'max:1000'],
             'rating'  => ['nullable', 'integer', 'min:1', 'max:5'],
         ]);
 
+        // Se especificar animal_id, verificar se adotou
+        if ($data['animal_id']) {
+            $hasAdoption = Animal::where('id', $data['animal_id'])
+                ->whereHas('adoptions', function ($query) {
+                    $query->where('user_id', Auth::id())->where('status', 'approved');
+                })
+                ->exists();
+
+            if (!$hasAdoption) {
+                return back()->with('error', 'Só podes comentar sobre animais que adotaste.');
+            }
+        }
+
         Comment::create([
             'user_id'   => Auth::id(),
-            'animal_id' => $data['animal_id'],
+            'animal_id' => $data['animal_id'] ?? null,
             'content'   => $data['content'],
             'rating'    => $data['rating'] ?? null,
         ]);

@@ -13,8 +13,12 @@
 
             <div>
                 <label class="block font-semibold">Espécie *</label>
-                <input name="species" value="{{ old('species') }}" class="w-full border rounded p-2"
-                    placeholder="dog/cat/..." required>
+                <select name="species" class="w-full border rounded p-2" required>
+                    <option value="">Selecionar</option>
+                    <option value="Cão" @selected(old('species') === 'Cão')>Cão</option>
+                    <option value="Gato" @selected(old('species') === 'Gato')>Gato</option>
+                    <option value="Outro" @selected(old('species') === 'Outro')>Outro</option>
+                </select>
                 @error('species') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
             </div>
 

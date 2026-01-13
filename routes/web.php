@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AnimalController;
 use App\Http\Controllers\CommentController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\Admin\AdminAdoptionController;
 use App\Http\Controllers\Admin\AdminMessageController;
 use App\Http\Controllers\Admin\AdminSuccessStoryController;
 use App\Http\Controllers\Admin\AdminVolunteerController;
+use App\Http\Controllers\Admin\AdminDonationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +29,7 @@ use App\Http\Controllers\Admin\AdminVolunteerController;
 |--------------------------------------------------------------------------
 */
 
-Route::view('/', 'home')->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Animais (público)
 Route::get('/animals', [AnimalController::class, 'index'])->name('animals.index');
@@ -35,10 +37,11 @@ Route::get('/animals/{animal}', [AnimalController::class, 'show'])->name('animal
 
 // Success stories (public)
 Route::get('/success-stories', [SuccessStoryController::class, 'index'])->name('success_stories.index');
+Route::get('/success-stories/{story}', [SuccessStoryController::class, 'show'])->name('success_stories.show');
 
-// Contacto (público)
-Route::view('/contact', 'contact')->name('contact');
-Route::post('/contact', [MessageController::class, 'store'])->name('messages.store');
+// Mensagens (público = contacto, admin = lista)
+Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
+Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
 
 // Perfil do usuário (autenticado)
 Route::middleware('auth')->group(function () {
@@ -116,6 +119,7 @@ Route::middleware(['auth', 'role:admin'])
         // Admin: Mensagens (Contacte-nos)
         Route::get('/messages', [AdminMessageController::class, 'index'])->name('messages.index');
         Route::get('/messages/{message}', [AdminMessageController::class, 'show'])->name('messages.show');
+        Route::post('/messages/{message}/reply', [AdminMessageController::class, 'reply'])->name('messages.reply');
         Route::delete('/messages/{message}', [AdminMessageController::class, 'destroy'])->name('messages.destroy');
 
         // Admin: Histórias de Sucesso
@@ -126,6 +130,9 @@ Route::middleware(['auth', 'role:admin'])
         Route::get('/success-stories/{story}/edit', [AdminSuccessStoryController::class, 'edit'])->name('stories.edit');
         Route::put('/success-stories/{story}', [AdminSuccessStoryController::class, 'update'])->name('stories.update');
         Route::delete('/success-stories/{story}', [AdminSuccessStoryController::class, 'destroy'])->name('stories.destroy');
+
+        // Admin: Doações
+        Route::get('/donations', [AdminDonationController::class, 'index'])->name('donations.index');
 
         // Nova rota para gerar o comprovativo em PDF
         Route::get('/comprovativo/{paymentId}', [ComprovativoController::class, 'gerarComprovativo'])->name('comprovativo.generate');

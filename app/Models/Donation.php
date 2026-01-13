@@ -20,4 +20,9 @@ class Donation extends Model
         'stripe_session_id',
     ];
 
+    // Relationships
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

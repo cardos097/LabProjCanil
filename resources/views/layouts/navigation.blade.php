@@ -16,12 +16,6 @@
                         Home
                     </x-nav-link>
 
-                    @auth
-                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                            Dashboard
-                        </x-nav-link>
-                    @endauth
-
                     <x-nav-link :href="route('animals.index')" :active="request()->routeIs('animals.*')">
                         Animais
                     </x-nav-link>
@@ -38,13 +32,19 @@
                         Doações
                     </x-nav-link>
 
-                    <x-nav-link :href="route('contact')" :active="request()->routeIs('contact')">
-                        Contacte-nos
-                    </x-nav-link>
-
                     @auth
+                        @if(Auth::user()->role !== 'admin')
+                            <x-nav-link :href="route('messages.index')" :active="request()->routeIs('messages.*')">
+                                Contacte-nos
+                            </x-nav-link>
+                        @endif
+
                         <x-nav-link :href="route('volunteers.create')" :active="request()->routeIs('volunteers.*')">
                             Voluntariado
+                        </x-nav-link>
+                    @else
+                        <x-nav-link :href="route('messages.index')" :active="request()->routeIs('messages.*')">
+                            Contacte-nos
                         </x-nav-link>
                     @endauth
 
@@ -138,12 +138,6 @@
                 Home
             </x-responsive-nav-link>
 
-            @auth
-                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                    Dashboard
-                </x-responsive-nav-link>
-            @endauth
-
             <x-responsive-nav-link :href="route('animals.index')" :active="request()->routeIs('animals.*')">
                 Animais
             </x-responsive-nav-link>
@@ -160,13 +154,19 @@
                 Doações
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('contact')" :active="request()->routeIs('contact')">
-                Contacte-nos
-            </x-responsive-nav-link>
-
             @auth
+                @if(Auth::user()->role !== 'admin')
+                    <x-responsive-nav-link :href="route('messages.index')" :active="request()->routeIs('messages.*')">
+                        Contacte-nos
+                    </x-responsive-nav-link>
+                @endif
+
                 <x-responsive-nav-link :href="route('volunteers.create')" :active="request()->routeIs('volunteers.*')">
                     Voluntariado
+                </x-responsive-nav-link>
+            @else
+                <x-responsive-nav-link :href="route('messages.index')" :active="request()->routeIs('messages.*')">
+                    Contacte-nos
                 </x-responsive-nav-link>
             @endauth
 

@@ -22,15 +22,18 @@
                     @csrf
 
                     <div>
-                        <label class="block font-medium mb-1">Animal *</label>
-                        <select name="animal_id" class="w-full border rounded p-2" required>
-                            <option value="">Selecionar um animal...</option>
-                            @foreach($animals as $animal)
+                        <label class="block font-medium mb-1">Animal (opcional)</label>
+                        <select name="animal_id" class="w-full border rounded p-2">
+                            <option value="">Comentário geral sobre o canil</option>
+                            @forelse($animals as $animal)
                                 <option value="{{ $animal->id }}" @selected(old('animal_id') == $animal->id)>
                                     {{ $animal->name }}
                                 </option>
-                            @endforeach
+                            @empty
+                                <option value="" disabled>Nenhum animal adotado</option>
+                            @endforelse
                         </select>
+                        <p class="text-gray-600 text-sm mt-1">Podes comentar apenas sobre animais que adotaste</p>
                         @error('animal_id')
                             <p class="text-red-600 text-sm">{{ $message }}</p>
                         @enderror

@@ -16,6 +16,11 @@ class SuccessStoryController extends Controller
         return view('success_stories.index', compact('stories'));
     }
 
+    //public page: show single story
+    public function show(SuccessStory $story){
+        return view('success_stories.show', compact('story'));
+    }
+
     //admin creates new story
     public function store(Request $request){
 
