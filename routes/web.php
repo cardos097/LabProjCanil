@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\AdminMessageController;
 use App\Http\Controllers\Admin\AdminSuccessStoryController;
 use App\Http\Controllers\Admin\AdminVolunteerController;
 use App\Http\Controllers\Admin\AdminDonationController;
+use App\Http\Controllers\Admin\AdminUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -133,6 +134,11 @@ Route::middleware(['auth', 'role:admin'])
 
         // Admin: Doações
         Route::get('/donations', [AdminDonationController::class, 'index'])->name('donations.index');
+
+        // Admin: Utilizadores
+        Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
+        Route::patch('/users/{user}/toggle-admin', [AdminUserController::class, 'toggleAdmin'])->name('users.toggleAdmin');
+        Route::delete('/users/{user}', [AdminUserController::class, 'destroy'])->name('users.destroy');
 
         // Nova rota para gerar o comprovativo em PDF
         Route::get('/comprovativo/{paymentId}', [ComprovativoController::class, 'gerarComprovativo'])->name('comprovativo.generate');

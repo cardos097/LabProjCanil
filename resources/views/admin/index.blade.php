@@ -91,6 +91,13 @@
                 </div>
             </a>
 
+            <!-- Utilizadores -->
+            <a href="{{ route('admin.users.index') }}" class="group rounded-lg p-6 bg-white shadow-md hover:shadow-xl transition-all duration-300 border border-gray-200 hover:border-blue-300 hover:translate-y-[-4px]">
+                <div class="text-3xl mb-3">👥</div>
+                <div class="text-lg font-bold text-gray-900 mb-1">Utilizadores</div>
+                <div class="text-sm text-gray-600">Gerir permissões e contas</div>
+            </a>
+
         </div>
     </div>
 </x-app-layout>
