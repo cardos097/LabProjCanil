@@ -25,12 +25,12 @@ class AdminAnimalController extends Controller
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'species' => ['required', 'string', 'max:50'],
-            'breed' => ['nullable', 'string', 'max:255'],
-            'age' => ['nullable', 'integer', 'min:0', 'max:40'],
-            'gender' => ['nullable', 'in:Masculino,Feminino'],
+            'breed' => ['required', 'string', 'max:255'],
+            'age' => ['required', 'integer', 'min:0', 'max:20'],
+            'gender' => ['required', 'in:Masculino,Feminino'],
             'description' => ['nullable', 'string', 'max:5000'],
             'status' => ['required', 'in:Disponível,Adotado'],
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Photo validation
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         // Save uploaded photo if present
@@ -58,11 +58,10 @@ class AdminAnimalController extends Controller
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'species' => ['required', 'string', 'max:50'],
-            'breed' => ['nullable', 'string', 'max:255'],
-            'age' => ['nullable', 'integer', 'min:0', 'max:40'],
-            'gender' => ['nullable', 'in:Masculino,Feminino'],
+            'breed' => ['required', 'string', 'max:255'],
+            'age' => ['required', 'integer', 'min:0', 'max:20'],
+            'gender' => ['required', 'in:Masculino,Feminino'],
             'description' => ['nullable', 'string', 'max:5000'],
-            'status' => ['required', 'in:Disponível,Adotado'],
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 

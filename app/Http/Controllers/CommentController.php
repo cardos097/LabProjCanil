@@ -10,26 +10,35 @@ use Illuminate\Support\Facades\Auth;
 class CommentController extends Controller
 {
     /**
+     * Mostrar página de comentários e avaliações
+     */
+    public function index()
+    {
+        $comments = Comment::latest()->paginate(10);
+        $animals = Animal::where('status', 'Disponível')->get();
+        return view('comments.index', compact('comments', 'animals'));
+    }
+
+    /**
      * Armazenar um novo comentário
      */
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'animal_id' => ['required', 'exists:animals,id'],
+            'content' => ['required', 'string', 'max:1000'],
+            'rating'  => ['nullable', 'integer', 'min:1', 'max:5'],
+        ]);
 
-    public function store(Request $request, Animal $animal)
-{
-    $data = $request->validate([
-        'content' => ['required', 'string', 'max:1000'],
-        'rating'  => ['nullable', 'integer', 'min:1', 'max:5'],
-    ]);
+        Comment::create([
+            'user_id'   => Auth::id(),
+            'animal_id' => $data['animal_id'],
+            'content'   => $data['content'],
+            'rating'    => $data['rating'] ?? null,
+        ]);
 
-    Comment::create([
-        'user_id'   => Auth::id(),
-        'animal_id' => $animal->id,
-        'content'   => $data['content'],
-        'rating'    => $data['rating'] ?? null,
-    ]);
-
-    return back()->with('success', 'Comentário adicionado com sucesso!');
-}
-
+        return back()->with('success', 'Comentário adicionado com sucesso!');
+    }
 
     /**
      * Apagar comentário (autor ou admin)
@@ -48,3 +57,4 @@ class CommentController extends Controller
         return back()->with('success', 'Comentário removido.');
     }
 }
+

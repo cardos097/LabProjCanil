@@ -74,7 +74,8 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Comentários
-    Route::post('/animals/{animal}/comments', [CommentController::class, 'store'])->name('comments.store');
+    Route::get('/comments', [CommentController::class, 'index'])->name('comments.index');
+    Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 
     // Pedido de adoção (user)

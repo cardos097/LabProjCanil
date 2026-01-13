@@ -6,41 +6,44 @@
             @csrf
 
             <div>
-                <label class="block font-semibold">Nome</label>
+                <label class="block font-semibold">Nome *</label>
                 <input name="name" value="{{ old('name') }}" class="w-full border rounded p-2" required>
                 @error('name') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
             </div>
 
             <div>
-                <label class="block font-semibold">Espécie</label>
+                <label class="block font-semibold">Espécie *</label>
                 <input name="species" value="{{ old('species') }}" class="w-full border rounded p-2"
                     placeholder="dog/cat/..." required>
                 @error('species') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
             </div>
 
             <div>
-                <label class="block font-semibold">Raça</label>
-                <input name="breed" value="{{ old('breed') }}" class="w-full border rounded p-2">
+                <label class="block font-semibold">Raça *</label>
+                <input name="breed" value="{{ old('breed') }}" class="w-full border rounded p-2" required>
                 @error('breed') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                    <label class="block font-semibold">Idade</label>
-                    <input type="number" name="age" value="{{ old('age') }}" class="w-full border rounded p-2" min="0"
-                        max="40">
-                    @error('age') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
-                </div>
+            <div>
+                <label class="block font-semibold">Género *</label>
+                <select name="gender" class="w-full border rounded p-2" required>
+                    <option value="">Selecionar</option>
+                    <option value="Masculino" @selected(old('gender') === 'Masculino')>Masculino</option>
+                    <option value="Feminino" @selected(old('gender') === 'Feminino')>Feminino</option>
+                </select>
+                @error('gender') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
+            </div>
 
-                <div>
-                    <label class="block font-semibold">Género</label>
-                    <select name="gender" class="w-full border rounded p-2">
-                        <option value="" @selected(old('gender') === '')>Selecionar</option>
-                        <option value="Masculino" @selected(old('gender') === 'Masculino')>Masculino</option>
-                        <option value="Feminino" @selected(old('gender') === 'Feminino')>Feminino</option>
-                    </select>
-                    @error('gender') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
-                </div>
+            <div>
+                <label class="block font-semibold">Idade *</label>
+                <select name="age" class="w-full border rounded p-2" required>
+                    <option value="">Selecionar</option>
+                    <option value="0" @selected(old('age') == '0')>&lt;1 ano</option>
+                    @for($i = 1; $i <= 20; $i++)
+                        <option value="{{ $i }}" @selected(old('age') == $i)>{{ $i }} ano{{ $i > 1 ? 's' : '' }}</option>
+                    @endfor
+                </select>
+                @error('age') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
             </div>
 
             <div>

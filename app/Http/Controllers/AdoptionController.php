@@ -64,7 +64,7 @@ class AdoptionController extends Controller
         Mail::to($adoption->user->email)->send(new \App\Mail\AdoptionRejected($adoption, $data['notes'] ?? null));
 
         $adoption->animal->update([
-            'status' => 'available',
+            'status' => 'Disponível',
         ]);
         $adoption->delete();
 

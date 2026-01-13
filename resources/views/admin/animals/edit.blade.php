@@ -2,46 +2,49 @@
     <div class="max-w-3xl mx-auto p-4">
         <h1 class="text-2xl font-bold mb-4">Editar Animal</h1>
 
-        <form method="POST" action="{{ route('admin.animals.update', $animal) }}" class="space-y-4">
+        <form method="POST" action="{{ route('admin.animals.update', $animal) }}" class="space-y-4" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
             <div>
-                <label class="block font-semibold">Nome</label>
+                <label class="block font-semibold">Nome *</label>
                 <input name="name" value="{{ old('name', $animal->name) }}" class="w-full border rounded p-2" required>
                 @error('name') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
             </div>
 
             <div>
-                <label class="block font-semibold">Espécie</label>
+                <label class="block font-semibold">Espécie *</label>
                 <input name="species" value="{{ old('species', $animal->species) }}" class="w-full border rounded p-2"
                     required>
                 @error('species') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
             </div>
 
             <div>
-                <label class="block font-semibold">Raça</label>
-                <input name="breed" value="{{ old('breed', $animal->breed) }}" class="w-full border rounded p-2">
+                <label class="block font-semibold">Raça *</label>
+                <input name="breed" value="{{ old('breed', $animal->breed) }}" class="w-full border rounded p-2" required>
                 @error('breed') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                    <label class="block font-semibold">Idade</label>
-                    <input type="number" name="age" value="{{ old('age', $animal->age) }}"
-                        class="w-full border rounded p-2" min="0" max="40">
-                    @error('age') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
-                </div>
+            <div>
+                <label class="block font-semibold">Género *</label>
+                <select name="gender" class="w-full border rounded p-2" required>
+                    <option value="">Selecionar</option>
+                    <option value="Masculino" @selected(old('gender', $animal->gender) === 'Masculino')>Masculino</option>
+                    <option value="Feminino" @selected(old('gender', $animal->gender) === 'Feminino')>Feminino</option>
+                </select>
+                @error('gender') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
+            </div>
 
-                <div>
-                    <label class="block font-semibold">Género</label>
-                    <select name="gender" class="w-full border rounded p-2">
-                        <option value="" @selected(old('gender', $animal->gender) === '')>Selecionar</option>
-                        <option value="Masculino" @selected(old('gender', $animal->gender) === 'Masculino')>Masculino</option>
-                        <option value="Feminino" @selected(old('gender', $animal->gender) === 'Feminino')>Feminino</option>
-                    </select>
-                    @error('gender') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
-                </div>
+            <div>
+                <label class="block font-semibold">Idade *</label>
+                <select name="age" class="w-full border rounded p-2" required>
+                    <option value="">Selecionar</option>
+                    <option value="0" @selected(old('age', $animal->age) == '0')>&lt;1 ano</option>
+                    @for($i = 1; $i <= 20; $i++)
+                        <option value="{{ $i }}" @selected(old('age', $animal->age) == $i)>{{ $i }} ano{{ $i > 1 ? 's' : '' }}</option>
+                    @endfor
+                </select>
+                @error('age') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
             </div>
 
             <div>
@@ -52,12 +55,16 @@
             </div>
 
             <div>
-                <label class="block font-semibold">Status</label>
-                <select name="status" class="w-full border rounded p-2" required>
-                    <option value="Disponível" @selected(old('status', $animal->status) === 'Disponível')>Disponível</option>
-                    <option value="Adotado" @selected(old('status', $animal->status) === 'Adotado')>Adotado</option>
-                </select>
-                @error('status') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
+                <label class="block font-semibold">Foto</label>
+                @if($animal->photo)
+                    <div class="mb-2">
+                        <img src="{{ asset('storage/' . $animal->photo) }}" alt="Foto atual" class="w-32 h-32 object-cover rounded">
+                        <p class="text-sm text-gray-600">Foto atual</p>
+                    </div>
+                @endif
+                <input type="file" name="photo" accept="image/*" class="w-full border rounded p-2">
+                <p class="text-sm text-gray-600">Deixe vazio para manter a foto atual</p>
+                @error('photo') <p class="text-red-600 text-sm">{{ $message }}</p> @enderror
             </div>
 
             <div class="flex gap-3">

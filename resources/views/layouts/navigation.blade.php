@@ -30,6 +30,10 @@
                         Histórias de Sucesso
                     </x-nav-link>
 
+                    <x-nav-link :href="route('comments.index')" :active="request()->routeIs('comments.*')">
+                        Comentários
+                    </x-nav-link>
+
                     <x-nav-link :href="route('donations.form')" :active="request()->routeIs('donations.*')">
                         Doações
                     </x-nav-link>
@@ -146,6 +150,10 @@
 
             <x-responsive-nav-link :href="route('success_stories.index')" :active="request()->routeIs('success_stories.*')">
                 Histórias de Sucesso
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('comments.index')" :active="request()->routeIs('comments.*')">
+                Comentários
             </x-responsive-nav-link>
 
             <x-responsive-nav-link :href="route('donations.form')" :active="request()->routeIs('donations.*')">

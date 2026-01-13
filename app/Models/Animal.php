@@ -17,6 +17,24 @@ class Animal extends Model
     use HasFactory;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var list<string>
+     */
+    protected $fillable = [
+        'name',
+        'species',
+        'breed',
+        'age',
+        'gender',
+        'description',
+        'photo',
+        'status',
+        'adopted_by',
+        'adopted_at',
+    ];
+
+    /**
      * The attributes that should be cast.
      *
      * @var array<string, string>
