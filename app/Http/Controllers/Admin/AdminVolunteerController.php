@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Volunteer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 use App\Mail\VolunteerApproved;
 use App\Mail\VolunteerRejected;
 
@@ -25,7 +26,7 @@ class AdminVolunteerController extends Controller
         try {
             Mail::to($volunteer->user->email)->send(new VolunteerApproved($volunteer));
         } catch (\Exception $e) {
-            \Log::warning('Failed to send volunteer approval email: ' . $e->getMessage());
+            Log::warning('Failed to send volunteer approval email: ' . $e->getMessage());
         }
 
         return back()->with('success', 'Volunteer request approved successfully!');
@@ -43,7 +44,7 @@ class AdminVolunteerController extends Controller
         try {
             Mail::to($volunteer->user->email)->send(new VolunteerRejected($volunteer, $data['notes'] ?? null));
         } catch (\Exception $e) {
-            \Log::warning('Failed to send volunteer rejection email: ' . $e->getMessage());
+            Log::warning('Failed to send volunteer rejection email: ' . $e->getMessage());
         }
 
         return back()->with('success', 'Volunteer request rejected successfully!');

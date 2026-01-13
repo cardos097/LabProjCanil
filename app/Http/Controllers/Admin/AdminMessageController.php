@@ -7,6 +7,7 @@ use App\Models\Message;
 use App\Mail\MessageReply;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class AdminMessageController extends Controller
 {
@@ -42,7 +43,7 @@ class AdminMessageController extends Controller
             Mail::to($email)->send(new MessageReply($message->subject, $data['reply']));
             return back()->with('success', 'Resposta enviada com sucesso!');
         } catch (\Exception $e) {
-            \Log::warning('Failed to send message reply email: ' . $e->getMessage());
+            Log::warning('Failed to send message reply email: ' . $e->getMessage());
             return back()->with('error', 'Erro ao enviar email. Por favor tenta novamente mais tarde.');
         }
     }

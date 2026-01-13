@@ -7,6 +7,7 @@ use App\Models\Adoption;
 use App\Models\Animal;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class AdoptionController extends Controller
 {
@@ -50,7 +51,7 @@ class AdoptionController extends Controller
         try {
             Mail::to($adoption->user->email)->send(new \App\Mail\AdoptionApproved($adoption));
         } catch (\Exception $e) {
-            \Log::warning('Failed to send adoption approval email: ' . $e->getMessage());
+            Log::warning('Failed to send adoption approval email: ' . $e->getMessage());
         }
 
         return back()->with('success', 'Adoption request approved successfully!');
@@ -68,7 +69,7 @@ class AdoptionController extends Controller
         try {
             Mail::to($adoption->user->email)->send(new \App\Mail\AdoptionRejected($adoption, $data['notes'] ?? null));
         } catch (\Exception $e) {
-            \Log::warning('Failed to send adoption rejection email: ' . $e->getMessage());
+            Log::warning('Failed to send adoption rejection email: ' . $e->getMessage());
         }
 
         $adoption->animal->update([
