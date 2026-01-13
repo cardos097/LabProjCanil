@@ -37,10 +37,14 @@ class AdminMessageController extends Controller
             return back()->with('error', 'Não há email para responder.');
         }
 
-        // Send email
-        Mail::to($email)->send(new MessageReply($message->subject, $data['reply']));
-
-        return back()->with('success', 'Resposta enviada com sucesso!');
+        // Send email (with error handling)
+        try {
+            Mail::to($email)->send(new MessageReply($message->subject, $data['reply']));
+            return back()->with('success', 'Resposta enviada com sucesso!');
+        } catch (\Exception $e) {
+            \Log::warning('Failed to send message reply email: ' . $e->getMessage());
+            return back()->with('error', 'Erro ao enviar email. Por favor tenta novamente mais tarde.');
+        }
     }
 
     // Delete a message

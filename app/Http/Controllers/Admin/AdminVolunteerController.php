@@ -21,8 +21,12 @@ class AdminVolunteerController extends Controller
     {
         $volunteer->update(['status' => 'approved']);
 
-        // Send email
-        Mail::to($volunteer->user->email)->send(new VolunteerApproved($volunteer));
+        // Send email (with error handling for rate limits)
+        try {
+            Mail::to($volunteer->user->email)->send(new VolunteerApproved($volunteer));
+        } catch (\Exception $e) {
+            \Log::warning('Failed to send volunteer approval email: ' . $e->getMessage());
+        }
 
         return back()->with('success', 'Volunteer request approved successfully!');
     }
@@ -35,8 +39,12 @@ class AdminVolunteerController extends Controller
 
         $volunteer->update(['status' => 'rejected']);
 
-        // Send email
-        Mail::to($volunteer->user->email)->send(new VolunteerRejected($volunteer, $data['notes'] ?? null));
+        // Send email (with error handling for rate limits)
+        try {
+            Mail::to($volunteer->user->email)->send(new VolunteerRejected($volunteer, $data['notes'] ?? null));
+        } catch (\Exception $e) {
+            \Log::warning('Failed to send volunteer rejection email: ' . $e->getMessage());
+        }
 
         return back()->with('success', 'Volunteer request rejected successfully!');
     }

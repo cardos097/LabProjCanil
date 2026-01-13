@@ -46,8 +46,12 @@ class AdoptionController extends Controller
             'adopted_at' => now(),
         ]);
 
-        // Send email with PDF certificate
-        Mail::to($adoption->user->email)->send(new \App\Mail\AdoptionApproved($adoption));
+        // Send email with PDF certificate (with error handling)
+        try {
+            Mail::to($adoption->user->email)->send(new \App\Mail\AdoptionApproved($adoption));
+        } catch (\Exception $e) {
+            \Log::warning('Failed to send adoption approval email: ' . $e->getMessage());
+        }
 
         return back()->with('success', 'Adoption request approved successfully!');
     }
@@ -60,8 +64,12 @@ class AdoptionController extends Controller
             'notes' => ['nullable', 'string', 'max:1000'],
         ]);
 
-        // Send rejection email before deleting
-        Mail::to($adoption->user->email)->send(new \App\Mail\AdoptionRejected($adoption, $data['notes'] ?? null));
+        // Send rejection email before deleting (with error handling)
+        try {
+            Mail::to($adoption->user->email)->send(new \App\Mail\AdoptionRejected($adoption, $data['notes'] ?? null));
+        } catch (\Exception $e) {
+            \Log::warning('Failed to send adoption rejection email: ' . $e->getMessage());
+        }
 
         $adoption->animal->update([
             'status' => 'Disponível',

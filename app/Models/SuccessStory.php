@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * SuccessStory
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class SuccessStory extends Model
 {
+    use SoftDeletes;
     // Mass assignable fields
     protected $fillable = [
         'user_id',
