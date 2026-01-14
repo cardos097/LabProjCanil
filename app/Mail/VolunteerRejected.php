@@ -17,18 +17,18 @@ class VolunteerRejected extends Mailable
     public $volunteer;
     public $reason;
 
-    /**
-     * Create a new message instance.
-     */
+    
+     // Create a new message instance.
+     
     public function __construct(Volunteer $volunteer, $reason = null)
     {
         $this->volunteer = $volunteer;
         $this->reason = $reason;
     }
 
-    /**
-     * Get the message envelope.
-     */
+    
+     // Get the message envelope.
+     
     public function envelope(): Envelope
     {
         return new Envelope(
@@ -36,9 +36,9 @@ class VolunteerRejected extends Mailable
         );
     }
 
-    /**
-     * Get the message content definition.
-     */
+    
+      //Get the message content definition.
+     
     public function content(): Content
     {
         return new Content(

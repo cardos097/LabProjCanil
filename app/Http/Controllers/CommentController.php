@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
-    /**
-     * Mostrar página de comentários e avaliações
-     */
+    
+     // Mostrar página de comentários e avaliações
+     
     public function index()
     {
         $comments = Comment::latest()->paginate(10);
@@ -28,9 +28,7 @@ class CommentController extends Controller
         return view('comments.index', compact('comments', 'animals'));
     }
 
-    /**
-     * Armazenar um novo comentário
-     */
+    // Adicionar novo comentário
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -39,7 +37,7 @@ class CommentController extends Controller
             'rating'  => ['nullable', 'integer', 'min:1', 'max:5'],
         ]);
 
-        // Se especificar animal_id, verificar se adotou
+        
         if ($data['animal_id']) {
             $hasAdoption = Animal::where('id', $data['animal_id'])
                 ->whereHas('adoptions', function ($query) {
@@ -62,9 +60,9 @@ class CommentController extends Controller
         return back()->with('success', 'Comentário adicionado com sucesso!');
     }
 
-    /**
-     * Apagar comentário (autor ou admin)
-     */
+    
+      //Apagar comentário (autor ou admin)
+     
     public function destroy(Comment $comment)
     {
         if (

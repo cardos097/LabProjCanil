@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminSuccessStoryController extends Controller
 {
-    // Display list of success stories (admin)
+    //List of success stories (admin)
     public function index()
     {
-        // Paginate stories
+        
         $stories = SuccessStory::latest()->paginate(10);
         return view('admin.stories.index', compact('stories'));
     }
@@ -21,7 +21,7 @@ class AdminSuccessStoryController extends Controller
     // Show form to create a new success story
     public function create()
     {
-        // Provide list of animals for the form
+        
         $animals = Animal::all();
         return view('admin.stories.create', compact('animals'));
     }
@@ -61,7 +61,7 @@ class AdminSuccessStoryController extends Controller
     // Edit an existing success story
     public function edit(SuccessStory $story)
     {
-        $animals = Animal::all();  // Provide animals for the form
+        $animals = Animal::all();  
         return view('admin.stories.edit', compact('story', 'animals'));
     }
 
@@ -94,9 +94,9 @@ class AdminSuccessStoryController extends Controller
     // Delete a success story
     public function destroy(SuccessStory $story)
     {
-        $story->delete();  // Delete the story
+        $story->delete();  
 
-        // Redirect back to listing with success message
+        
         return redirect()->route('admin.stories.index')->with('success', 'História removida com sucesso.');
     }
 

@@ -22,7 +22,7 @@ class Message extends Model
 
     public function user()
     {
-        // Sender (optional, if the message was created by a logged-in user)
+        
         return $this->belongsTo(User::class);
     }
 }

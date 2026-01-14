@@ -9,9 +9,7 @@ use App\Models\Animal;
 
 class MessageController extends Controller
 {
-    /**
-     * Mostrar formulário de contacto ou lista de mensagens (admin)
-     */
+    //Mostrar formulário de contacto ou lista de mensagens (admin)
     public function index()
     {
         // Se for admin, mostrar lista de mensagens
@@ -24,9 +22,8 @@ class MessageController extends Controller
         return view('messages.contact');
     }
 
-    /**
-     * Guardar mensagem do formulário de contacto
-     */
+    
+
     public function store(Request $request)
     {
         // Se não estiver autenticado, nome e email são obrigatórios
@@ -46,7 +43,7 @@ class MessageController extends Controller
         $data = $request->validate($rules);
 
         Message::create([
-            'user_id' => Auth::id(), // null if not authenticated
+            'user_id' => Auth::id(), 
             'subject' => $data['subject'],
             'message' => $data['message'],
             'email'   => $data['email'] ?? null,
